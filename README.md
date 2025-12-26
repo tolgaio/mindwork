@@ -138,7 +138,23 @@ Your Vault/
 
 ## Installation
 
-### Option 1: Clone and Add to Settings
+### Option 1: Claude Code Marketplace (Recommended)
+
+Add the marketplace and install the plugin:
+
+```bash
+/plugin marketplace add tolgaio/mindwork
+/plugin install mindwork@mindwork
+```
+
+Or install directly via command line:
+
+```bash
+claude plugin marketplace add tolgaio/mindwork
+claude plugin install mindwork@mindwork
+```
+
+### Option 2: Clone and Add to Settings
 
 ```bash
 git clone https://github.com/tolgaio/mindwork.git ~/src/mindwork
@@ -151,7 +167,7 @@ Add to `~/.claude/settings.json`:
 }
 ```
 
-### Option 2: Use Directly
+### Option 3: Use Directly
 
 ```bash
 claude --plugin-dir ~/src/mindwork

@@ -1,0 +1,26 @@
+{
+  "name": "mindwork",
+  "owner": {
+    "name": "Tolga"
+  },
+  "metadata": {
+    "description": "Therapy session analysis and personal journaling toolkit for Claude Code",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "mindwork",
+      "source": ".",
+      "description": "Transcribe recordings, extract patterns, track progress, and gain insights from therapy sessions and journals",
+      "version": "1.0.0",
+      "author": {
+        "name": "Tolga"
+      },
+      "homepage": "https://github.com/tolgaio/mindwork",
+      "repository": "https://github.com/tolgaio/mindwork",
+      "license": "MIT",
+      "keywords": ["therapy", "journaling", "mental-health", "transcription", "analysis", "self-reflection"],
+      "category": "productivity"
+    }
+  ]
+}

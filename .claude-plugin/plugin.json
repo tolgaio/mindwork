@@ -1,8 +1,12 @@
 {
   "name": "mindwork",
-  "description": "Therapy session analysis toolkit. Transcribe recordings, extract patterns, track progress, and gain insights from therapy sessions.",
-  "version": "0.1.0",
+  "description": "Therapy session analysis and personal journaling toolkit. Transcribe recordings, extract patterns, track progress, and gain insights from your mental wellness journey.",
+  "version": "1.0.0",
   "author": {
     "name": "Tolga"
-  }
+  },
+  "homepage": "https://github.com/tolgaio/mindwork",
+  "repository": "https://github.com/tolgaio/mindwork",
+  "license": "MIT",
+  "keywords": ["therapy", "journaling", "mental-health", "transcription", "analysis", "self-reflection"]
 }
