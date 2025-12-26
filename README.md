@@ -141,7 +141,7 @@ Your Vault/
 ### Option 1: Clone and Add to Settings
 
 ```bash
-git clone https://github.com/yourusername/mindwork.git ~/src/mindwork
+git clone https://github.com/tolgaio/mindwork.git ~/src/mindwork
 ```
 
 Add to `~/.claude/settings.json`:
