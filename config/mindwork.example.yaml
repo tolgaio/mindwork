@@ -1,0 +1,88 @@
+# Mindwork Configuration
+# Copy this file to mindwork.yaml in your vault/project directory
+#
+# Config locations (checked in order):
+#   1. ./mindwork.yaml (your vault/project directory)
+#   2. ~/.config/mindwork/config.yaml (XDG standard)
+#   3. ~/.mindwork.yaml (home directory)
+
+# Schema version (for future compatibility)
+version: 1
+
+# =============================================================================
+# VAULT - Base directory for your mindwork data
+# =============================================================================
+# All relative paths below are resolved from this location.
+# Use ~ for home directory or absolute paths.
+
+vault: ~/Therapy
+
+# =============================================================================
+# SOURCES - Where your input files are located
+# =============================================================================
+# Each source type can have multiple paths (searched in order).
+# Paths can be relative (to vault) or absolute.
+
+sources:
+  # Audio recordings (therapy sessions, voice memos)
+  recordings:
+    paths:
+      - recordings/           # Relative to vault
+      # - ~/Voice Memos/Therapy  # Additional location (uncomment if needed)
+    patterns:
+      - "*.m4a"
+      - "*.mp3"
+      - "*.wav"
+      - "*.mp4"
+      - "*.webm"
+      - "*.ogg"
+      - "*.flac"
+
+  # Journal entries (any text/markdown files)
+  journals:
+    paths:
+      - journals/
+      # - ~/Obsidian/Personal/Daily Notes  # Uncomment for Obsidian integration
+    patterns:
+      - "*.md"
+      - "*.txt"
+
+  # Previously transcribed sessions
+  transcriptions:
+    paths:
+      - transcriptions/
+
+# =============================================================================
+# OUTPUTS - Where processed files are saved
+# =============================================================================
+# Paths are relative to vault unless absolute.
+
+outputs:
+  # Transcriptions from the transcribe skill
+  transcriptions: transcriptions/
+
+  # Analysis results from the analyze skill
+  analysis: analysis/
+
+  # Progress reports from the progress skill
+  progress: progress/
+
+# =============================================================================
+# PREFERENCES - User settings
+# =============================================================================
+
+preferences:
+  # Primary language for content (affects translation decisions)
+  # Options: english, turkish, spanish, etc.
+  language: english
+
+  # Date format for output filenames
+  # Common formats:
+  #   %Y-%m-%d     -> 2024-01-15
+  #   %Y%m%d       -> 20240115
+  #   %B %d, %Y    -> January 15, 2024
+  date_format: "%Y-%m-%d"
+
+  # Number of recent analyses to include for context when running analyze
+  # Set to 0 to disable automatic context loading
+  context_count: 5

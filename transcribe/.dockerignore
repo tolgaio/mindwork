@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+chunks/
+*.m4a
+*.mp3
+*.wav
+*.mp4
+README.md

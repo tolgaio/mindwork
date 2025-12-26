@@ -1,0 +1,8 @@
+{
+  "name": "mindwork",
+  "description": "Therapy session analysis toolkit. Transcribe recordings, extract patterns, track progress, and gain insights from therapy sessions.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Tolga"
+  }
+}

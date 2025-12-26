@@ -1,0 +1,15 @@
+[project]
+name = "mindwork-transcribe"
+version = "0.1.0"
+description = "Therapy session transcription with smart chunking, formatting, and translation"
+requires-python = ">=3.10"
+dependencies = [
+    "pydub>=0.25.1",
+    "openai>=1.0.0",
+]
+
+[project.scripts]
+mindwork-transcribe = "audio_chunker:main"
+
+[tool.uv]
+package = true
