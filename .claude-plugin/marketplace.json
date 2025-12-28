@@ -10,7 +10,7 @@
   "plugins": [
     {
       "name": "mindwork",
-      "source": ".",
+      "source": "./",
       "description": "Transcribe recordings, extract patterns, track progress, and gain insights from therapy sessions and journals",
       "version": "1.0.0",
       "author": {
