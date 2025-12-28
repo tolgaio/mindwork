@@ -1,10 +1,10 @@
 #!/bin/sh
 # Mindwork Plugin Installation Script
-# Workaround for https://github.com/anthropics/claude-code/issues/15178
+# Creates symlinks from ~/.claude/ to the plugin directory
 #
 # Usage:
 #   ./install.sh              Install skills to ~/.claude/skills/
-#   ./install.sh --uninstall  Remove installed skills
+#   ./install.sh --uninstall  Remove installed symlinks
 
 set -e
 
@@ -42,6 +42,12 @@ print_error() {
 }
 
 install_skills() {
+    # Check if skills directory exists in plugin
+    if [ ! -d "$SCRIPT_DIR/skills" ]; then
+        print_warning "No skills directory found in plugin"
+        return
+    fi
+
     print_status "Installing skills..."
 
     # Create skills directory if it doesn't exist
@@ -50,45 +56,23 @@ install_skills() {
         print_success "Created $SKILLS_DIR"
     fi
 
-    # Check if skills directory exists in plugin
-    if [ ! -d "$SCRIPT_DIR/skills" ]; then
-        print_warning "No skills directory found in plugin"
-        return
-    fi
-
-    # Copy each skill with mindwork- prefix and update SKILL.md
+    # Create symlink for each skill
     for skill_path in "$SCRIPT_DIR/skills"/*; do
         if [ -d "$skill_path" ]; then
             skill_name=$(basename "$skill_path")
-            new_skill_name="${PLUGIN_NAME}-${skill_name}"
-            target="$SKILLS_DIR/$new_skill_name"
+            target="$SKILLS_DIR/$skill_name"
 
-            if [ -d "$target" ]; then
-                # Check if it's our installation by looking for .mindwork-installed marker
-                if [ -f "$target/.mindwork-installed" ]; then
-                    # Remove and reinstall to get latest changes
-                    rm -rf "$target"
-                    print_status "Updating: $new_skill_name"
-                else
-                    print_error "Cannot install $new_skill_name: $target already exists (not managed by this installer)"
-                    continue
-                fi
+            # Remove existing symlink or directory
+            if [ -L "$target" ]; then
+                rm "$target"
+            elif [ -d "$target" ]; then
+                print_error "Cannot install $skill_name: $target exists and is not a symlink"
+                continue
             fi
 
-            # Copy the skill directory
-            cp -r "$skill_path" "$target"
-
-            # Update the name in SKILL.md frontmatter
-            if [ -f "$target/SKILL.md" ]; then
-                # Use sed to replace the name field in frontmatter
-                # Match "name: <old_name>" and replace with "name: <new_name>"
-                sed -i "s/^name: *${skill_name}$/name: ${new_skill_name}/" "$target/SKILL.md"
-            fi
-
-            # Create marker file to identify our installations
-            echo "Installed by mindwork install.sh on $(date)" > "$target/.mindwork-installed"
-
-            print_success "Installed: $new_skill_name"
+            # Create symlink
+            ln -s "$skill_path" "$target"
+            print_success "Linked: $skill_name"
         fi
     done
 }
@@ -107,31 +91,23 @@ install_commands() {
         print_success "Created $COMMANDS_DIR"
     fi
 
-    # Copy each command with mindwork- prefix
+    # Create symlink for each command
     for cmd_path in "$SCRIPT_DIR/commands"/*.md; do
         if [ -f "$cmd_path" ]; then
-            cmd_name=$(basename "$cmd_path" .md)
-            new_cmd_name="${PLUGIN_NAME}-${cmd_name}"
-            target="$COMMANDS_DIR/${new_cmd_name}.md"
+            cmd_name=$(basename "$cmd_path")
+            target="$COMMANDS_DIR/$cmd_name"
 
-            if [ -f "$target" ]; then
-                # Check for our marker comment
-                if grep -q "^<!-- mindwork-installed -->" "$target" 2>/dev/null; then
-                    rm "$target"
-                    print_status "Updating: $new_cmd_name"
-                else
-                    print_error "Cannot install $new_cmd_name: $target already exists"
-                    continue
-                fi
+            # Remove existing symlink
+            if [ -L "$target" ]; then
+                rm "$target"
+            elif [ -f "$target" ]; then
+                print_error "Cannot install $cmd_name: $target exists and is not a symlink"
+                continue
             fi
 
-            # Copy and add marker
-            {
-                echo "<!-- mindwork-installed -->"
-                cat "$cmd_path"
-            } > "$target"
-
-            print_success "Installed command: $new_cmd_name"
+            # Create symlink
+            ln -s "$cmd_path" "$target"
+            print_success "Linked: $cmd_name"
         fi
     done
 }
@@ -150,31 +126,23 @@ install_agents() {
         print_success "Created $AGENTS_DIR"
     fi
 
-    # Copy each agent with mindwork- prefix
+    # Create symlink for each agent
     for agent_path in "$SCRIPT_DIR/agents"/*.md; do
         if [ -f "$agent_path" ]; then
-            agent_name=$(basename "$agent_path" .md)
-            new_agent_name="${PLUGIN_NAME}-${agent_name}"
-            target="$AGENTS_DIR/${new_agent_name}.md"
+            agent_name=$(basename "$agent_path")
+            target="$AGENTS_DIR/$agent_name"
 
-            if [ -f "$target" ]; then
-                # Check for our marker comment
-                if grep -q "^<!-- mindwork-installed -->" "$target" 2>/dev/null; then
-                    rm "$target"
-                    print_status "Updating: $new_agent_name"
-                else
-                    print_error "Cannot install $new_agent_name: $target already exists"
-                    continue
-                fi
+            # Remove existing symlink
+            if [ -L "$target" ]; then
+                rm "$target"
+            elif [ -f "$target" ]; then
+                print_error "Cannot install $agent_name: $target exists and is not a symlink"
+                continue
             fi
 
-            # Copy and add marker
-            {
-                echo "<!-- mindwork-installed -->"
-                cat "$agent_path"
-            } > "$target"
-
-            print_success "Installed agent: $new_agent_name"
+            # Create symlink
+            ln -s "$agent_path" "$target"
+            print_success "Linked: $agent_name"
         fi
     done
 }
@@ -182,30 +150,30 @@ install_agents() {
 uninstall() {
     print_status "Uninstalling ${PLUGIN_NAME} plugin..."
 
-    # Remove skill directories (only those with our marker)
+    # Remove skill symlinks
     if [ -d "$SKILLS_DIR" ]; then
         for target in "$SKILLS_DIR/${PLUGIN_NAME}-"*; do
-            if [ -d "$target" ] && [ -f "$target/.mindwork-installed" ]; then
-                rm -rf "$target"
-                print_success "Removed: $(basename "$target")"
-            fi
-        done
-    fi
-
-    # Remove command files (only those with our marker)
-    if [ -d "$COMMANDS_DIR" ]; then
-        for target in "$COMMANDS_DIR/${PLUGIN_NAME}-"*.md; do
-            if [ -f "$target" ] && grep -q "^<!-- mindwork-installed -->" "$target" 2>/dev/null; then
+            if [ -L "$target" ]; then
                 rm "$target"
                 print_success "Removed: $(basename "$target")"
             fi
         done
     fi
 
-    # Remove agent files (only those with our marker)
+    # Remove command symlinks
+    if [ -d "$COMMANDS_DIR" ]; then
+        for target in "$COMMANDS_DIR/${PLUGIN_NAME}-"*.md; do
+            if [ -L "$target" ]; then
+                rm "$target"
+                print_success "Removed: $(basename "$target")"
+            fi
+        done
+    fi
+
+    # Remove agent symlinks
     if [ -d "$AGENTS_DIR" ]; then
         for target in "$AGENTS_DIR/${PLUGIN_NAME}-"*.md; do
-            if [ -f "$target" ] && grep -q "^<!-- mindwork-installed -->" "$target" 2>/dev/null; then
+            if [ -L "$target" ]; then
                 rm "$target"
                 print_success "Removed: $(basename "$target")"
             fi
@@ -227,14 +195,13 @@ install() {
     echo ""
     print_success "Installation complete!"
     echo ""
+    print_status "Skills are symlinked - changes to source files are reflected immediately."
     print_status "Restart Claude Code to use the new skills:"
     echo "  - mindwork-analyze"
     echo "  - mindwork-insights"
     echo "  - mindwork-progress"
     echo "  - mindwork-summary"
     echo "  - mindwork-transcribe"
-    echo ""
-    print_status "To update after changes, run ./install.sh again"
 }
 
 # Main
@@ -246,14 +213,12 @@ case "${1:-}" in
         echo "Mindwork Plugin Installation Script"
         echo ""
         echo "Usage:"
-        echo "  ./install.sh              Install/update skills to ~/.claude/"
-        echo "  ./install.sh --uninstall  Remove installed skills"
+        echo "  ./install.sh              Install skills via symlinks to ~/.claude/"
+        echo "  ./install.sh --uninstall  Remove installed symlinks"
         echo "  ./install.sh --help       Show this help"
         echo ""
-        echo "This script copies skills to ~/.claude/skills/ and updates"
-        echo "the SKILL.md frontmatter to use the mindwork- prefix."
-        echo ""
-        echo "Run again after making changes to update the installation."
+        echo "This script creates symlinks from ~/.claude/skills/ to the plugin directory."
+        echo "Changes to source files are reflected immediately without re-running install."
         ;;
     "")
         install

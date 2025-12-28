@@ -1,5 +1,5 @@
 ---
-name: transcribe
+name: mindwork-transcribe
 description: Transcribe therapy session recordings to formatted text. Converts audio to clean, speaker-labeled transcripts (Me/Therapist format) with grammar correction and English translation. Use when processing therapy recordings, session audio, or any two-person conversation recording.
 ---
 

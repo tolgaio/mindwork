@@ -1,5 +1,5 @@
 ---
-name: progress
+name: mindwork-progress
 description: Track progress over time across therapy sessions and journal entries. Supports trend analysis, session comparisons, period summaries, and goal tracking. Reads from analysis files and generates comprehensive progress reports.
 ---
 

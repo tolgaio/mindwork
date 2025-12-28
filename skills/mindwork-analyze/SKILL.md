@@ -1,5 +1,5 @@
 ---
-name: analyze
+name: mindwork-analyze
 description: Analyze therapy session transcripts or journal entries. Identifies cognitive patterns, emotional themes, and tracks progress over time. Automatically references recent analyses for context. Use for session analysis, journal reflection analysis, or pattern identification.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: summary
+name: mindwork-summary
 description: Generate summaries of therapy sessions and journal entries at various lengths and for different audiences. Supports action item extraction, highlights reels, and session prep. Use for quick recaps, sharing with others, or preparing for your next session.
 ---
 

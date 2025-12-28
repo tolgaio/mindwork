@@ -1,5 +1,5 @@
 ---
-name: insights
+name: mindwork-insights
 description: Build and maintain a personal profile from therapy sessions and journal entries. Creates a living document that accumulates self-knowledge about patterns, strengths, coping strategies, and growth over time. Unlike other skills, insights updates an existing profile rather than creating new files.
 ---
 
