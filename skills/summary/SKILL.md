@@ -184,6 +184,7 @@ Key quotes, breakthroughs, and emotional moments.
 > "Show me highlights from this month's sessions"
 > "What were the breakthrough moments?"
 > "What were my best quotes from recent sessions?"
+> "Highlights from my dream logs this month"
 
 **Output template:**
 ```markdown
@@ -281,6 +282,13 @@ Claude reviews all January sessions and extracts breakthroughs and quotes.
 
 Claude compiles last session recap, recent journals, and suggested topics.
 
+### Journal Type Summaries
+> "Summarize my dream logs from this week"
+> "What themes appeared in my gratitude entries this month?"
+> "Give me a one-liner for each anxiety journal entry from January"
+
+Claude filters to the specified journal type and generates summaries with context from the journal description.
+
 ---
 
 ## Output Location
@@ -319,3 +327,23 @@ If user doesn't specify length, infer from context:
 - "Full summary" → full page
 - "What happened?" → paragraph
 - "Detailed summary" → full page
+
+### Journal Type Handling
+
+When summarizing journals, check `mindwork.yaml` for journal type context:
+
+1. **Match the file path** to a configured journal source
+2. **Use the description** to provide context in summaries
+3. **Tailor the summary** based on journal type:
+   - Dream logs: Focus on imagery, symbols, emotional themes
+   - Gratitude entries: Highlight what brought joy, patterns in appreciation
+   - Daily reflections: Key mood/events, notable thoughts
+   - Anxiety tracking: Triggers identified, coping used
+
+**Include journal type in output:**
+```markdown
+# Summary: {Date}
+**Source**: {journal type description}
+
+{Summary content tailored to the journal type}
+```

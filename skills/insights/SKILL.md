@@ -71,6 +71,11 @@ Answer questions about the profile without modifying it.
 > "What are my main triggers according to my profile?"
 > "Summarize my growth journey"
 
+**Journal type queries:**
+> "What patterns appear in my dream logs?"
+> "What themes recur in my gratitude entries?"
+> "What do my anxiety journal entries reveal about my triggers?"
+
 **Workflow:**
 1. Read profile.md
 2. Answer the question based on profile content
@@ -87,6 +92,7 @@ Save as `profile.md` in the vault root.
 
 *Last updated: {date}*
 *Based on: {N} therapy sessions, {M} journal entries*
+*Journal breakdown: {X} daily, {Y} dreams, {Z} gratitude, ...*
 
 ---
 
@@ -103,6 +109,13 @@ Save as `profile.md` in the vault root.
 ### Triggers
 {Situations, people, or thoughts that consistently provoke reactions}
 - {Trigger description}
+
+### Patterns by Journal Type
+{Insights specific to each journal type}
+- **Dream logs**: {recurring themes, symbols, emotions in dreams}
+- **Gratitude entries**: {what you're grateful for, patterns in appreciation}
+- **Daily reflections**: {mood patterns, daily triggers}
+- **{Other types}**: {patterns specific to that journal type}
 
 ---
 

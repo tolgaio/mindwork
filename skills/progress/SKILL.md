@@ -68,6 +68,16 @@ Generate progress reports for time periods.
 > "Quarterly review of my journal reflections"
 > "Summarize my progress this year"
 
+### 5. Journal Type Filtering
+
+Track progress for specific journal types.
+
+**Example prompts:**
+> "Show trends in my gratitude entries"
+> "Compare my dream logs from January vs March"
+> "What patterns appear across my anxiety journal?"
+> "Progress report for daily reflections only"
+
 **Workflow:**
 1. Determine date range from request
 2. Read all analysis files in that range
@@ -189,7 +199,11 @@ For quantitative analysis:
 ## Session Stats
 - Total sessions analyzed: N
 - Therapy sessions: N
-- Journal entries: N
+- Journal entries: N (by type below)
+  - Daily reflections: N
+  - Dream logs: N
+  - Gratitude entries: N
+  - {Other types as configured}
 - Date range: {start} to {end}
 ```
 
@@ -397,3 +411,25 @@ When presenting progress:
 - Use encouraging but realistic language
 - Note that progress isn't always linear
 - Celebrate small wins while acknowledging ongoing challenges
+
+### Journal Type Filtering
+
+When the user requests progress for a specific journal type:
+
+1. **Identify the type**: Match user's request to configured journal descriptions
+2. **Filter analysis files**: Only include analyses with matching Journal Type header
+3. **Generate focused report**: Show trends for just that journal type
+4. **Cross-reference**: Note patterns that appear across multiple journal types
+
+**Example query handling:**
+- "Show trends in my gratitude entries" → Filter to analyses where `Journal Type` contains "gratitude"
+- "Compare dream logs" → Filter to analyses from dream log folder
+- "Weekly progress for anxiety journal" → Filter + aggregate for anxiety-related entries
+
+**Report header for filtered reports:**
+```markdown
+# Progress Report: {Journal Type Description}
+**Filtered to**: {Journal type name}
+**Entries analyzed**: N
+**Date range**: {start} to {end}
+```

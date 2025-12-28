@@ -15,8 +15,9 @@ Mindwork uses a simple YAML configuration file to understand your folder structu
 
    sources:
      journals:
-       paths:
-         - ~/Obsidian/Personal/Daily Notes
+       sources:
+         - path: ~/Obsidian/Personal/Daily Notes
+           description: "Daily reflections"
    ```
 
 3. Done! Mindwork skills will automatically use your config.
@@ -57,9 +58,11 @@ sources:
     patterns: ["*.m4a", "*.mp3", "*.wav"]
 
   journals:
-    paths:
-      - journals/
-      - ~/Obsidian/Personal/Daily Notes
+    sources:
+      - path: journals/daily/
+        description: "Daily reflections and mood check-ins"
+      - path: journals/dreams/
+        description: "Dream logs and interpretations"
     patterns: ["*.md", "*.txt"]
 
   transcriptions:
@@ -81,9 +84,22 @@ preferences:
 Base directory for your mindwork data. All relative paths resolve from here.
 
 ### `sources`
-Where to find input files. Each source type supports:
+Where to find input files.
+
+**Recordings and transcriptions** support:
 - `paths`: List of directories to search (relative to vault or absolute)
 - `patterns`: Glob patterns for file matching
+
+**Journals** use a richer structure with descriptions:
+- `sources`: List of journal sources, each with:
+  - `path`: Directory path (relative to vault or absolute)
+  - `description`: Context for this journal type (used by skills for tailored analysis)
+- `patterns`: Glob patterns for file matching
+
+The description enables:
+- Filtering by journal type: `"Analyze only my dream logs"`
+- Context-aware analysis: dream logs focus on symbolism, gratitude logs on positive patterns
+- Grouped reporting: `"3 daily entries, 2 dream logs this week"`
 
 ### `outputs`
 Where to save processed files. Paths are relative to vault.
@@ -106,9 +122,11 @@ vault: ~/Obsidian/Personal
 
 sources:
   journals:
-    paths:
-      - Daily Notes
-      - Reflections
+    sources:
+      - path: Daily Notes
+        description: "Daily reflections and check-ins"
+      - path: Reflections
+        description: "Deeper self-reflection essays"
     patterns: ["*.md"]
 
   transcriptions:
@@ -143,11 +161,40 @@ vault: ~/Documents/Wellbeing
 
 sources:
   journals:
-    paths:
-      - ~/Obsidian/Personal/Journals
-      - ~/Obsidian/Work/Reflections
+    sources:
+      - path: ~/Obsidian/Personal/Journals
+        description: "Personal journal entries"
+      - path: ~/Obsidian/Work/Reflections
+        description: "Work-related reflections"
 
   recordings:
     paths:
       - ~/Therapy/Sessions
 ```
+
+### Multiple Journal Types
+
+Organize different journal practices:
+
+```yaml
+vault: ~/Therapy
+
+sources:
+  journals:
+    sources:
+      - path: journals/daily/
+        description: "Daily mood check-ins and reflections"
+      - path: journals/dreams/
+        description: "Dream logs for interpretation"
+      - path: journals/prompts/
+        description: "Responses to therapy prompt cards"
+      - path: journals/gratitude/
+        description: "Gratitude practice entries"
+      - path: journals/anxiety/
+        description: "Anxiety tracking and triggers"
+```
+
+This enables queries like:
+- `"Analyze my dream log from last night"`
+- `"Show trends in my gratitude entries"`
+- `"What patterns appear across my anxiety logs?"`

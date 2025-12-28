@@ -29,7 +29,13 @@ Part of the **mindwork** suite. Analyzes transcripts and journal entries to iden
 
 ### Analyze a Journal Entry
 
-> "Analyze today's journal entry at journals/2024-01-18.md"
+> "Analyze today's journal entry at journals/daily/2024-01-18.md"
+
+### Analyze by Journal Type
+
+> "Analyze my dream log from last night"
+> "Analyze all gratitude entries from this week"
+> "What patterns appear in my anxiety journal?"
 
 ### Analyze with Explicit Output Path
 
@@ -140,6 +146,7 @@ Use this structured format for analysis output:
 **Date**: {analysis_date}
 **Source**: {source_path}
 **Type**: {transcript|journal}
+**Journal Type**: {description from config, if journal}
 
 ---
 
@@ -247,6 +254,24 @@ When loading previous analyses for context:
 ### Journal vs Transcript Analysis
 - **Transcripts**: Include therapist technique analysis, note the dialogue flow
 - **Journals**: Focus more on self-reflection quality, internal processing
+
+### Journal Type-Aware Analysis
+
+When the config specifies journal types with descriptions, tailor the analysis:
+
+| Journal Type | Analysis Focus |
+|--------------|----------------|
+| **Daily reflections** | Mood tracking, daily patterns, routine impacts |
+| **Dream logs** | Symbolism, recurring imagery, emotional themes in dreams |
+| **Gratitude entries** | Positive patterns, what brings joy, growth in appreciation |
+| **Prompt card responses** | Depth of self-exploration, recurring themes across prompts |
+| **Anxiety tracking** | Trigger identification, coping effectiveness, intensity patterns |
+
+To determine journal type:
+1. Check `mindwork.yaml` for `sources.journals.sources`
+2. Match the file path to a configured source
+3. Use the `description` field for context
+4. Include the journal type in the analysis header
 
 ### Partial Analysis
 If only partial content is available or readable, note this in the analysis and work with what's available.

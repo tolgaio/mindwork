@@ -39,10 +39,19 @@ sources:
       - "*.flac"
 
   # Journal entries (any text/markdown files)
+  # Each journal source has a path and description for context-aware analysis
   journals:
-    paths:
-      - journals/
-      # - ~/Obsidian/Personal/Daily Notes  # Uncomment for Obsidian integration
+    sources:
+      - path: journals/daily/
+        description: "Daily reflections and mood check-ins"
+      - path: journals/dreams/
+        description: "Dream logs and interpretations"
+      - path: journals/prompts/
+        description: "Responses to therapy prompt cards"
+      - path: journals/gratitude/
+        description: "Gratitude practice entries"
+      # - path: ~/Obsidian/Personal/Daily Notes
+      #   description: "Obsidian daily notes"
     patterns:
       - "*.md"
       - "*.txt"
